@@ -57,6 +57,7 @@ let AuthService = class AuthService {
             secret: this.configService.get('ACCESS_TOKEN_SECRET'),
             expiresIn: '7d',
         });
+        console.log(accessToken, refreshToken);
         response.cookie('access_token', accessToken, { httpOnly: true });
         response.cookie('refresh_token', refreshToken, { httpOnly: true });
         return { user };
@@ -75,13 +76,13 @@ let AuthService = class AuthService {
             where: { email: registerDto.email },
         });
         if (existingUser) {
-            throw new Error('Email already exist');
+            throw new common_1.BadRequestException({ email: 'Email already exist' });
         }
         const hashedPassword = await bcrypt.hash(registerDto.password, 10);
         const user = await this.prisma.user.create({
             data: {
                 fullname: registerDto.fullname,
-                password: registerDto.password,
+                password: hashedPassword,
                 email: registerDto.email,
             },
         });
@@ -90,7 +91,9 @@ let AuthService = class AuthService {
     async login(loginDto, response) {
         const user = await this.validateUser(loginDto);
         if (!user) {
-            throw new common_1.UnauthorizedException('Invalid credentials');
+            throw new common_1.BadRequestException({
+                invalidCredentials: 'Invalid credentials',
+            });
         }
         return this.issueToken(user, response);
     }

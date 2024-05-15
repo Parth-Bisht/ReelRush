@@ -65,6 +65,8 @@ export class AuthService {
       expiresIn: '7d',
     });
 
+    console.log(accessToken,refreshToken)
+
     response.cookie('access_token', accessToken, { httpOnly: true });
     response.cookie('refresh_token', refreshToken, { httpOnly: true });
     return { user };
@@ -85,13 +87,13 @@ export class AuthService {
       where: { email: registerDto.email },
     });
     if (existingUser) {
-      throw new Error('Email already exist');
+      throw new BadRequestException({ email: 'Email already exist' });
     }
     const hashedPassword = await bcrypt.hash(registerDto.password, 10);
     const user = await this.prisma.user.create({
       data: {
         fullname: registerDto.fullname,
-        password: registerDto.password,
+        password: hashedPassword,
         email: registerDto.email,
       },
     });
@@ -102,14 +104,16 @@ export class AuthService {
   async login(loginDto: LoginDto, response: Response) {
     const user = await this.validateUser(loginDto);
     if (!user) {
-      throw new UnauthorizedException('Invalid credentials');
+      throw new BadRequestException({
+        invalidCredentials: 'Invalid credentials',
+      });
     }
     return this.issueToken(user, response);
   }
 
-  async logout(response:Response){
+  async logout(response: Response) {
     response.clearCookie('access_token');
     response.clearCookie('refresh_token');
-    return 'Successfullt logged out'
+    return 'Successfullt logged out';
   }
 }

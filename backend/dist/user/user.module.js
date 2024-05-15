@@ -9,14 +9,24 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserModule = void 0;
 const common_1 = require("@nestjs/common");
 const user_service_1 = require("./user.service");
-const user_controller_1 = require("./user.controller");
+const user_resolver_1 = require("./user.resolver");
+const auth_service_1 = require("../auth/auth.service");
+const jwt_1 = require("@nestjs/jwt");
+const prisma_service_1 = require("../prisma.service");
+const config_1 = require("@nestjs/config");
 let UserModule = class UserModule {
 };
 exports.UserModule = UserModule;
 exports.UserModule = UserModule = __decorate([
     (0, common_1.Module)({
-        providers: [user_service_1.UserService],
-        controllers: [user_controller_1.UserController]
+        providers: [
+            user_service_1.UserService,
+            user_resolver_1.UserResolver,
+            auth_service_1.AuthService,
+            jwt_1.JwtService,
+            prisma_service_1.PrismaService,
+            config_1.ConfigService,
+        ],
     })
 ], UserModule);
 //# sourceMappingURL=user.module.js.map
