@@ -6,6 +6,9 @@ export class User {
   id?: number;
 
   @Field()
+  fullname?: string;
+
+  @Field()
   email?: string;
 
   @Field({ nullable: true })

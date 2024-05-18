@@ -2,7 +2,6 @@ import { ApolloError } from 'apollo-server-express';
 import { ArgumentsHost, Injectable } from '@nestjs/common';
 import { Catch } from '@nestjs/common';
 import { BadRequestException } from '@nestjs/common';
-import { ValidationPipe } from '@nestjs/common';
 import { GqlExceptionFilter } from '@nestjs/graphql';
 
 @Catch(BadRequestException)

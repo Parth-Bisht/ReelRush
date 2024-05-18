@@ -21,6 +21,10 @@ __decorate([
 __decorate([
     (0, graphql_1.Field)(),
     __metadata("design:type", String)
+], User.prototype, "fullname", void 0);
+__decorate([
+    (0, graphql_1.Field)(),
+    __metadata("design:type", String)
 ], User.prototype, "email", void 0);
 __decorate([
     (0, graphql_1.Field)({ nullable: true }),

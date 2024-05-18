@@ -49,6 +49,7 @@ type User {
   bio: String
   createdAt: DateTime!
   email: String!
+  fullname: String!
   id: Float!
   image: String
   password: String!

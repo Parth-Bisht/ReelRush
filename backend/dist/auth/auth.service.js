@@ -53,13 +53,13 @@ let AuthService = class AuthService {
             secret: this.configService.get('ACCESS_TOKEN_SECRET'),
             expiresIn: '150sec',
         });
-        const refreshToken = this.jwtService.sign({
-            secret: this.configService.get('ACCESS_TOKEN_SECRET'),
+        const refreshToken = this.jwtService.sign(payload, {
+            secret: this.configService.get('REFRESH_TOKEN_SECRET'),
             expiresIn: '7d',
         });
-        console.log(accessToken, refreshToken);
         response.cookie('access_token', accessToken, { httpOnly: true });
         response.cookie('refresh_token', refreshToken, { httpOnly: true });
+        console.log(user);
         return { user };
     }
     async validateUser(loginDto) {
@@ -86,6 +86,7 @@ let AuthService = class AuthService {
                 email: registerDto.email,
             },
         });
+        console.log(user);
         return this.issueToken(user, response);
     }
     async login(loginDto, response) {

@@ -1,5 +1,5 @@
 import { useMutation } from "@apollo/client";
-import React, { useState } from "react";
+import { useState } from "react";
 import { REGISTER_USER } from "../graphql/mutations/Register";
 import { RegisterUserMutation } from "../gql/graphql";
 import { useUserStore } from "../stores/userStore";
@@ -40,7 +40,7 @@ const Register = () => {
       setUser({
         id: data?.register.user.id,
         email: data?.register.user.email,
-        fullname: "",
+        fullname: data?.register.user.fullname,
       });
     }
   };

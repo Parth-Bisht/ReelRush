@@ -12,12 +12,20 @@ const auth_service_1 = require("./auth.service");
 const jwt_1 = require("@nestjs/jwt");
 const prisma_service_1 = require("../prisma.service");
 const config_1 = require("@nestjs/config");
+const constants_1 = require("./jwt.strategy/constants");
 let AuthModule = class AuthModule {
 };
 exports.AuthModule = AuthModule;
 exports.AuthModule = AuthModule = __decorate([
     (0, common_1.Module)({
+        imports: [
+            jwt_1.JwtModule.register({
+                secret: constants_1.jwtConstants.secret,
+                global: true,
+            }),
+        ],
         providers: [auth_service_1.AuthService, jwt_1.JwtService, prisma_service_1.PrismaService, config_1.ConfigService],
+        exports: [jwt_1.JwtService, auth_service_1.AuthService],
     })
 ], AuthModule);
 //# sourceMappingURL=auth.module.js.map

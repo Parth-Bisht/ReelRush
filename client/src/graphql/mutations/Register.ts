@@ -18,6 +18,7 @@ export const REGISTER_USER = gql`
       user {
         id
         email
+        fullname
       }
     }
   }

@@ -36,7 +36,7 @@ const Login = () => {
       setUser({
         id: data?.login.user.id,
         email: data?.login.user.email,
-        fullname: "",
+        fullname: data?.login.user.fullname,
       });
     }
   };
