@@ -91,6 +91,7 @@ let AuthService = class AuthService {
     }
     async login(loginDto, response) {
         const user = await this.validateUser(loginDto);
+        console.log(user);
         if (!user) {
             throw new common_1.BadRequestException({
                 invalidCredentials: 'Invalid credentials',

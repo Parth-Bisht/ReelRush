@@ -6,6 +6,7 @@ import { LoginDto, RegisterDto } from 'src/auth/auth.dto';
 import { BadRequestException, UseFilters } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { GraphQLErrorFilter } from 'src/filters/custom.exception';
+import { User } from './user.model';
 
 @Resolver()
 export class UserResolver {
@@ -29,12 +30,12 @@ export class UserResolver {
     return { user };
   }
 
+  @UseFilters(GraphQLErrorFilter)
   @Mutation(() => LoginResponse)
   async login(
     @Args('loginInput') loginDto: LoginDto,
     @Context() context: { res: Response },
   ) {
-    console.log('INSIDE');
     return this.authService.login(loginDto, context.res);
   }
 
@@ -55,5 +56,10 @@ export class UserResolver {
   @Query(() => String)
   async hello() {
     return 'hello world';
+  }
+
+  @Query(() => [User])
+  async getUsers() {
+    return this.userService.getUsers();
   }
 }

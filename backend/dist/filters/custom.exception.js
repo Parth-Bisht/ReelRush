@@ -13,6 +13,7 @@ const common_2 = require("@nestjs/common");
 let GraphQLErrorFilter = class GraphQLErrorFilter {
     catch(exception, host) {
         const response = exception.getResponse();
+        console.log(response, 'RESPONSE');
         if (typeof response === 'object') {
             throw new apollo_server_express_1.ApolloError('Validation error', 'VALIDATION_ERROR', response);
         }

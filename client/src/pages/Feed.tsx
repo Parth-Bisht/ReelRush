@@ -1,9 +1,8 @@
-import React from 'react'
+import React from "react";
+import MainLayout from "../layouts/MainLayout";
 
 const Feed = () => {
-  return (
-    <div>Feed</div>
-  )
-}
+  return <MainLayout>Feed</MainLayout>;
+};
 
-export default Feed
+export default Feed;

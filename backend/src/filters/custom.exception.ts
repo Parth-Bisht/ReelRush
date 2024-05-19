@@ -8,6 +8,7 @@ import { GqlExceptionFilter } from '@nestjs/graphql';
 export class GraphQLErrorFilter implements GqlExceptionFilter {
   catch(exception: BadRequestException, host: ArgumentsHost) {
     const response = exception.getResponse();
+    console.log(response, 'RESPONSE');
 
     if (typeof response === 'object') {
       // Directly throw ApolloError with the response object.

@@ -13,6 +13,7 @@ const Login = () => {
   const setUser = useUserStore((state) => state.setUser);
   const setIsLoginOpen = useGeneralStore((state) => state.setLoginIsOpen);
   const [errors, setErrors] = useState<GraphQLErrorExtensions>({});
+  const [invalidCredentials, setInvalidCredentials] = useState("");
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
@@ -20,24 +21,23 @@ const Login = () => {
 
   const handleLogin = async () => {
     setErrors({});
-    await loginUser({
-      variables: {
-        email: loginData.email,
-        password: loginData.password,
-      },
-    }).catch((err) => {
-      console.log(err.graphQLErrors);
-      setErrors(err.graphQLErrors[0].extensions);
-    });
-
-    console.log(data);
-
-    if (data?.login.user) {
-      setUser({
-        id: data?.login.user.id,
-        email: data?.login.user.email,
-        fullname: data?.login.user.fullname,
+    try {
+      const response = await loginUser({
+        variables: {
+          email: loginData.email,
+          password: loginData.password,
+        },
       });
+      response && response.data && setUser(response.data.login.user);
+      setIsLoginOpen(false);
+    } catch (_) {
+      if (error && error.graphQLErrors[0].extensions?.invalidCredentials) {
+        setInvalidCredentials(
+          error.graphQLErrors[0].extensions?.invalidCredentials as string
+        );
+      } else if (error) {
+        setErrors(error.graphQLErrors[0].extensions);
+      }
     }
   };
 
@@ -71,6 +71,9 @@ const Login = () => {
       </div>
 
       <div className="px-6 mt-6">
+        <span className="text-red-500 text-[14px] font-semibold">
+          {invalidCredentials}
+        </span>
         <button
           onClick={handleLogin}
           disabled={!loginData.email || !loginData.password}
@@ -81,7 +84,7 @@ const Login = () => {
               : "bg-[#F02C56]",
           ].join(" ")}
         >
-          Register
+          Login
         </button>
       </div>
     </>

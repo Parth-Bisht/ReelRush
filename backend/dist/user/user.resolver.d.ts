@@ -32,4 +32,23 @@ export declare class UserResolver {
         res: Response;
     }): Promise<string>;
     hello(): Promise<string>;
+    getUsers(): Promise<({
+        posts: {
+            id: number;
+            userId: number;
+            text: string;
+            video: string;
+            createdAt: Date;
+            updatedAt: Date;
+        }[];
+    } & {
+        id: number;
+        fullname: string;
+        bio: string;
+        image: string;
+        email: string;
+        password: string;
+        createdAt: Date;
+        updatedAt: Date;
+    })[]>;
 }
